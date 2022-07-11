@@ -23,4 +23,10 @@ object AppModule {
     fun providesApiService(apiClient: ApiClient): ApiService = apiClient
         .retrofit.create(ApiService::class.java)
 
+    @Provides
+    @Singleton
+    fun providesCardGroupsRepository(apiService: ApiService): CardGroupsRepository {
+        return CardGroupsRepositoryImpl(apiService = apiService)
+    }
+
 }
