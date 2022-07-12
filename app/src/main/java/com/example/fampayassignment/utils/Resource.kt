@@ -12,15 +12,3 @@ sealed class Resource<T>(
     ) : Resource<T>(message = errorMessage, status = Status.ERROR)
     class Loading<T> : Resource<T>(status = Status.LOADING)
 }
-
-enum class Status {
-    SUCCESS,
-    ERROR,
-    LOADING
-}
-
-enum class ErrorType {
-    NETWORK,
-    HTTP,
-    UNKNOWN
-}

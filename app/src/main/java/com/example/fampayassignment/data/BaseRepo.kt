@@ -12,7 +12,7 @@ import java.io.IOException
 
 open class BaseRepo {
 
-    suspend fun <T> safeApiCall(api: () -> Response<T>) = withContext(Dispatchers.IO) {
+    suspend fun <T> safeApiCall(api: suspend () -> Response<T>) = withContext(Dispatchers.IO) {
 
         try {
             val response = api.invoke()
