@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class CardGroup(
     @SerialName("cards")
-    var cards: List<Card>? = listOf(),
+    var cards: MutableList<Card>? = mutableListOf(),
     @SerialName("design_type")
     var designType: String? = "",
     @SerialName("height")

@@ -10,4 +10,6 @@
 
     <color name="orange_fampay">#FFAD00</color>
     <color name="grey_fampay">#F6F6F6</color>
+    <color name="grey">#F7F6F3</color>
+    <color name="big_card_color">#FFB486</color>
 </resources>

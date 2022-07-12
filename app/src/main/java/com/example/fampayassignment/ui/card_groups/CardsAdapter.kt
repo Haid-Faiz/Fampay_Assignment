@@ -1,18 +1,26 @@
 package com.example.fampayassignment.ui.card_groups
 
-import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import coil.load
-import com.example.fampayassignment.databinding.*
+import coil.transform.CircleCropTransformation
+import com.example.fampayassignment.databinding.ItemCardHc1Binding
+import com.example.fampayassignment.databinding.ItemCardHc3Binding
+import com.example.fampayassignment.databinding.ItemCardHc4Binding
+import com.example.fampayassignment.databinding.ItemCardHc5Binding
+import com.example.fampayassignment.databinding.ItemCardHc6Binding
+import com.example.fampayassignment.databinding.ItemCardHc9Binding
 import com.example.lib.models.Card
 
 class CardsAdapter(
-    private val designType: String
+    private val designType: String,
+    private val onDismissClick: (position: Int) -> Unit,
+    private val onRemindLaterClick: (position: Int) -> Unit
 ) : ListAdapter<Card, CardsAdapter.ViewHolder>(diffUtilCallback) {
 
     private val Design_HC1 = 1
@@ -67,7 +75,7 @@ class CardsAdapter(
         holder.bind(getItem(position))
     }
 
-    class ViewHolder(
+    inner class ViewHolder(
         private val binding: ViewBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
@@ -77,13 +85,39 @@ class CardsAdapter(
                 is ItemCardHc1Binding -> binding.apply {
                     tvTitle.text = card.title
                     tvName.text = card.name
-                    imgProfile.load(card.icon?.imageUrl)
+                    imgProfile.load(card.icon?.imageUrl) {
+                        transformations(CircleCropTransformation())
+                    }
                 }
                 is ItemCardHc3Binding -> binding.apply {
+                    // Big card case
                     tvTitle.text = card.title
                     tvDescription.text = card.description
                     btnAction.text = card.cta?.get(0)?.text
                     imgBg.load(card.bgImage?.imageUrl)
+
+                    var isTranslated = false
+                    cardBig.setOnLongClickListener {
+                        if (!isTranslated) {
+                            isTranslated = true
+                            cardBig.animate()
+                                .setDuration(500)
+                                .translationXBy(350F)
+                                .interpolator = AccelerateDecelerateInterpolator()
+                        } else {
+                            cardBig.animate().setDuration(500).translationXBy(-350F)
+                            isTranslated = false
+                        }
+                        true
+                    }
+
+                    btnRemindLater.setOnClickListener {
+                        onRemindLaterClick(adapterPosition)
+                    }
+
+                    btnDismiss.setOnClickListener {
+                        onDismissClick(adapterPosition)
+                    }
                 }
                 is ItemCardHc4Binding -> {}
                 is ItemCardHc5Binding -> binding.apply {

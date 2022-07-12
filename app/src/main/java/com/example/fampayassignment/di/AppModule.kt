@@ -2,6 +2,7 @@ package com.example.fampayassignment.di
 
 import com.example.fampayassignment.data.CardGroupsRepository
 import com.example.fampayassignment.data.CardGroupsRepositoryImpl
+import com.example.fampayassignment.utils.AppPrefs
 import com.example.lib.ApiClient
 import com.example.lib.ApiService
 import dagger.Module
@@ -25,8 +26,11 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesCardGroupsRepository(apiService: ApiService): CardGroupsRepository {
-        return CardGroupsRepositoryImpl(apiService = apiService)
+    fun providesCardGroupsRepository(
+        apiService: ApiService,
+        appPrefs: AppPrefs
+    ): CardGroupsRepository {
+        return CardGroupsRepositoryImpl(apiService = apiService, appPrefs = appPrefs)
     }
 
 }

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fampayassignment.databinding.ItemCardGroupsBinding
 import com.example.lib.models.CardGroup
+import javax.inject.Inject
 
 class CardGroupsAdapter : ListAdapter<CardGroup, CardGroupsAdapter.ViewHolder>(diffUtilCallback) {
 
@@ -17,15 +18,36 @@ class CardGroupsAdapter : ListAdapter<CardGroup, CardGroupsAdapter.ViewHolder>(d
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), position)
     }
 
-    class ViewHolder(
+    inner class ViewHolder(
         private val binding: ItemCardGroupsBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: CardGroup) = binding.apply {
-            val cardsAdapter = CardsAdapter(item.designType ?: "H3")
+        private lateinit var cardsAdapter: CardsAdapter
+
+        fun bind(item: CardGroup, position: Int) = binding.apply {
+            var cardList = item.cards
+            cardsAdapter = CardsAdapter(
+                item.designType ?: "HC3",
+                onRemindLaterClick = {
+                    // Removing item at given position
+                    if (!cardList.isNullOrEmpty()) {
+                        cardList.removeAt(it)
+                        cardsAdapter.submitList(cardList)
+                        cardsAdapter.notifyDataSetChanged()
+                    }
+                },
+                onDismissClick = {
+                    // Removing item at given position
+                    if (!cardList.isNullOrEmpty()) {
+                        cardList.removeAt(it)
+                        cardsAdapter.submitList(cardList)
+                        cardsAdapter.notifyDataSetChanged()
+                    }
+                }
+            )
             rvCards.setHasFixedSize(true)
             rvCards.adapter = cardsAdapter
             cardsAdapter.submitList(item.cards)
@@ -36,7 +58,7 @@ class CardGroupsAdapter : ListAdapter<CardGroup, CardGroupsAdapter.ViewHolder>(d
 
 private val diffUtilCallback = object : DiffUtil.ItemCallback<CardGroup>() {
     override fun areItemsTheSame(oldItem: CardGroup, newItem: CardGroup): Boolean =
-        oldItem == newItem
+        oldItem.id == newItem.id
 
     override fun areContentsTheSame(oldItem: CardGroup, newItem: CardGroup): Boolean =
         oldItem.equals(newItem)

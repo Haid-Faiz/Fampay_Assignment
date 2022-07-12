@@ -3,8 +3,7 @@ package com.example.fampayassignment.ui.card_groups
 import androidx.appcompat.app.AppCompatActivity
 import androidx.activity.viewModels
 import android.os.Bundle
-import android.util.Log
-import androidx.core.view.isGone
+import androidx.lifecycle.lifecycleScope
 import com.example.fampayassignment.databinding.ActivityMainBinding
 import com.example.fampayassignment.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,7 +29,6 @@ class MainActivity : AppCompatActivity() {
 
             when (it) {
                 is Resource.Success -> binding.apply {
-                    Log.d("checkSuccessData:", "${it.data?.cardGroups}")
                     cardGroupsAdapter.submitList(it.data?.cardGroups)
                 }
                 is Resource.Error -> binding.apply {
@@ -43,8 +41,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUpUI() = binding.apply {
-        cardGroupsAdapter = CardGroupsAdapter()
-        rvCardGroups.adapter = cardGroupsAdapter
-        rvCardGroups.setHasFixedSize(true)
+
+        lifecycleScope.launchWhenStarted {
+            cardGroupsAdapter = CardGroupsAdapter()
+            rvCardGroups.adapter = cardGroupsAdapter
+            rvCardGroups.setHasFixedSize(true)
+        }
     }
 }
