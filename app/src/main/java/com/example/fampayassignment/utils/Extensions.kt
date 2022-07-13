@@ -1,8 +1,6 @@
 package com.example.fampayassignment.utils
 
 import android.view.View
-import androidx.browser.customtabs.CustomTabsIntent
-import androidx.core.net.toUri
 import com.google.android.material.snackbar.Snackbar
 
 fun View.showSnackBar(
@@ -18,18 +16,5 @@ fun View.showSnackBar(
             }
         }
         show()
-    }
-}
-
-val customTab: CustomTabsIntent by lazy {
-    CustomTabsIntent.Builder().build()
-}
-
-fun View.openUrl(url: String?) {
-    rootView.setOnClickListener {
-        customTab.launchUrl(
-            rootView.context,
-            url?.toUri() ?: "www.google.com".toUri()
-        )
     }
 }

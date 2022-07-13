@@ -1,8 +1,11 @@
 package com.example.fampayassignment.ui.card_groups
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
+import androidx.browser.customtabs.CustomTabsIntent
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +18,6 @@ import com.example.fampayassignment.databinding.ItemCardHc4Binding
 import com.example.fampayassignment.databinding.ItemCardHc5Binding
 import com.example.fampayassignment.databinding.ItemCardHc6Binding
 import com.example.fampayassignment.databinding.ItemCardHc9Binding
-import com.example.fampayassignment.utils.openUrl
 import com.example.lib.models.Card
 
 class CardsAdapter(
@@ -30,6 +32,9 @@ class CardsAdapter(
     private val Design_HC5 = 5
     private val Design_HC6 = 6
     private val Design_HC9 = 9
+    private val customTab: CustomTabsIntent by lazy {
+        CustomTabsIntent.Builder().build()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = when (viewType) {
@@ -89,7 +94,7 @@ class CardsAdapter(
                     imgProfile.load(card.icon?.imageUrl) {
                         transformations(CircleCropTransformation())
                     }
-                    root.openUrl(card.url)
+                    openUrl(card.url, root)
                 }
                 is ItemCardHc3Binding -> binding.apply {
                     // Big card case
@@ -122,27 +127,35 @@ class CardsAdapter(
                     }
 
                     btnAction.setOnClickListener {
-                        btnAction.openUrl(card.cta?.get(0)?.url)
-//                        customTab.launchUrl(
-//                            root.context,
-//                            card.cta?.get(0)?.url?.toUri() ?: "www.google.com".toUri()
-//                        )
+                        customTab.launchUrl(
+                            root.context,
+                            card.cta?.get(0)?.url?.toUri() ?: "www.google.com".toUri()
+                        )
                     }
                 }
                 is ItemCardHc4Binding -> {}
                 is ItemCardHc5Binding -> binding.apply {
                     imgCard.load(card.bgImage?.imageUrl)
-                    root.openUrl(card.url)
+                    openUrl(card.url, root)
                 }
                 is ItemCardHc6Binding -> binding.apply {
                     tvTitle.text = card.title
                     imgIcon.load(card.icon?.imageUrl)
-                    root.openUrl(card.url)
+                    openUrl(card.url, root)
                 }
                 is ItemCardHc9Binding -> binding.apply {
                     imgCard.load(card.bgImage?.imageUrl)
-                    root.openUrl(card.url)
+                    openUrl(card.url, root)
                 }
+            }
+        }
+
+        private fun openUrl(url: String?, root: View) {
+            root.setOnClickListener {
+                customTab.launchUrl(
+                    root.context,
+                    url?.toUri() ?: "www.google.com".toUri()
+                )
             }
         }
     }

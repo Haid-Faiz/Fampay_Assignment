@@ -62,6 +62,7 @@ class MainActivity : AppCompatActivity() {
 
         errorLayout.btnRetry.setOnClickListener {
             viewModel.fetchData()
+            swipeRefreshLayout.isRefreshing = true
         }
     }
 }
