@@ -1,11 +1,12 @@
 package com.example.fampayassignment.ui.card_groups
 
-import androidx.appcompat.app.AppCompatActivity
-import androidx.activity.viewModels
 import android.os.Bundle
-import androidx.lifecycle.lifecycleScope
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isGone
 import com.example.fampayassignment.databinding.ActivityMainBinding
 import com.example.fampayassignment.utils.Resource
+import com.example.fampayassignment.utils.showSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,18 +24,26 @@ class MainActivity : AppCompatActivity() {
         setUpObserver()
     }
 
-
     private fun setUpObserver() {
         viewModel.cardGroups.observe(this) {
 
             when (it) {
                 is Resource.Success -> binding.apply {
                     cardGroupsAdapter.submitList(it.data?.cardGroups)
+                    progressBar.isGone = true
+                    rvCardGroups.isGone = false
+                    swipeRefreshLayout.isRefreshing = false
+                    errorLayout.root.isGone = true
                 }
                 is Resource.Error -> binding.apply {
-
+                    progressBar.isGone = true
+                    rvCardGroups.isGone = true
+                    swipeRefreshLayout.isRefreshing = false
+                    root.showSnackBar(it.errorMessage)
+                    errorLayout.root.isGone = false
                 }
                 is Resource.Loading -> binding.apply {
+                    errorLayout.root.isGone = true
                 }
             }
         }
@@ -42,10 +51,17 @@ class MainActivity : AppCompatActivity() {
 
     private fun setUpUI() = binding.apply {
 
-        lifecycleScope.launchWhenStarted {
-            cardGroupsAdapter = CardGroupsAdapter()
-            rvCardGroups.adapter = cardGroupsAdapter
-            rvCardGroups.setHasFixedSize(true)
+        cardGroupsAdapter = CardGroupsAdapter()
+        rvCardGroups.adapter = cardGroupsAdapter
+        rvCardGroups.setHasFixedSize(true)
+
+        swipeRefreshLayout.setOnRefreshListener {
+            viewModel.fetchData()
+            swipeRefreshLayout.isRefreshing = true
+        }
+
+        errorLayout.btnRetry.setOnClickListener {
+            viewModel.fetchData()
         }
     }
 }

@@ -6,6 +6,7 @@
         <entry key="app/src/main/res/drawable/bg_card_groups.xml" value="0.2" />
         <entry key="app/src/main/res/drawable/bg_rectangular_round.xml" value="0.1325" />
         <entry key="app/src/main/res/drawable/bg_textview.xml" value="0.1325" />
+        <entry key="app/src/main/res/drawable/ic_antenna.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_arrow_right.xml" value="0.201" />
         <entry key="app/src/main/res/drawable/ic_dismiss.xml" value="0.201" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.15" />
@@ -15,6 +16,7 @@
         <entry key="app/src/main/res/font/montserrat.xml" value="0.2234375" />
         <entry key="app/src/main/res/font/montserrat_bold.xml" value="0.2234375" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.17889492753623187" />
+        <entry key="app/src/main/res/layout/error_status_layout.xml" value="0.19322916666666667" />
         <entry key="app/src/main/res/layout/item_card_groups.xml" value="0.22" />
         <entry key="app/src/main/res/layout/item_card_hc1.xml" value="0.33" />
         <entry key="app/src/main/res/layout/item_card_hc3.xml" value="0.2" />

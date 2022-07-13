@@ -15,6 +15,7 @@ import com.example.fampayassignment.databinding.ItemCardHc4Binding
 import com.example.fampayassignment.databinding.ItemCardHc5Binding
 import com.example.fampayassignment.databinding.ItemCardHc6Binding
 import com.example.fampayassignment.databinding.ItemCardHc9Binding
+import com.example.fampayassignment.utils.openUrl
 import com.example.lib.models.Card
 
 class CardsAdapter(
@@ -88,6 +89,7 @@ class CardsAdapter(
                     imgProfile.load(card.icon?.imageUrl) {
                         transformations(CircleCropTransformation())
                     }
+                    root.openUrl(card.url)
                 }
                 is ItemCardHc3Binding -> binding.apply {
                     // Big card case
@@ -118,20 +120,30 @@ class CardsAdapter(
                     btnDismiss.setOnClickListener {
                         onDismissClick(adapterPosition)
                     }
+
+                    btnAction.setOnClickListener {
+                        btnAction.openUrl(card.cta?.get(0)?.url)
+//                        customTab.launchUrl(
+//                            root.context,
+//                            card.cta?.get(0)?.url?.toUri() ?: "www.google.com".toUri()
+//                        )
+                    }
                 }
                 is ItemCardHc4Binding -> {}
                 is ItemCardHc5Binding -> binding.apply {
                     imgCard.load(card.bgImage?.imageUrl)
+                    root.openUrl(card.url)
                 }
                 is ItemCardHc6Binding -> binding.apply {
                     tvTitle.text = card.title
                     imgIcon.load(card.icon?.imageUrl)
+                    root.openUrl(card.url)
                 }
                 is ItemCardHc9Binding -> binding.apply {
                     imgCard.load(card.bgImage?.imageUrl)
+                    root.openUrl(card.url)
                 }
             }
-
         }
     }
 
@@ -146,7 +158,6 @@ class CardsAdapter(
             else -> Design_HC9
         }
     }
-
 }
 
 private val diffUtilCallback = object : DiffUtil.ItemCallback<Card>() {

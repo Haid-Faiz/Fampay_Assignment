@@ -21,21 +21,34 @@
         android:layout_marginTop="@dimen/_8sdp"
         android:background="@drawable/bg_card_groups">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvCardGroups"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefreshLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingBottom="@dimen/_18sdp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_card_groups"
-            tools:visibility="visible" />
+            android:layout_height="match_parent">
 
-        <!--        <ProgressBar-->
-        <!--            android:id="@+id/progressBar"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_gravity="center"-->
-        <!--            android:indeterminateTint="@color/black" />-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvCardGroups"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="@dimen/_18sdp"
+                android:visibility="gone"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_card_groups"
+                tools:visibility="visible" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminateTint="@color/black" />
+
+        <include
+            android:id="@+id/error_layout"
+            layout="@layout/error_status_layout" />
 
     </FrameLayout>
 

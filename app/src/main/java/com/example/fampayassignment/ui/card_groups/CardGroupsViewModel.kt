@@ -8,7 +8,6 @@ import com.example.fampayassignment.data.CardGroupsRepository
 import com.example.fampayassignment.utils.Resource
 import com.example.lib.models.CardGroupResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,12 +23,8 @@ class CardGroupsViewModel @Inject constructor(
         fetchData()
     }
 
-    private fun fetchData() = viewModelScope.launch {
+    fun fetchData() = viewModelScope.launch {
+        _cardGroups.postValue(Resource.Loading())
         _cardGroups.postValue(cardGroupsRepo.fetchCardGroupsData())
     }
-
-    fun saveCardStatus(isDismissed: Boolean) = viewModelScope.launch {
-        cardGroupsRepo.saveCardStatus(isDismissed)
-    }
-
 }

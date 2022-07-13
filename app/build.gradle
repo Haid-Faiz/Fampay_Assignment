@@ -55,15 +55,17 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
 
-    // JetPack DataStore
-    implementation "androidx.datastore:datastore-preferences:$datastore_version"
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.0'
-
     // Module dependency (own java/kotlin library/module)
     implementation project(path: ':lib')
 
     // Kotlin Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutine_version"
+
+    // SwipeRefresh Layout
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swipe_refresh_layout"
+
+    // Page indicator
+    implementation 'me.relex:circleindicator:2.1.6'
 
     // Chrome Custom Tab
     implementation "androidx.browser:browser:$chrome_custom_tab_version"

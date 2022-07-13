@@ -1,9 +1,9 @@
 package com.example.fampayassignment.data
 
-import com.example.fampayassignment.utils.ErrorType
-import com.example.fampayassignment.utils.Resource
 import com.example.fampayassignment.utils.Constants.INTERNET_CONNECTION
 import com.example.fampayassignment.utils.Constants.SOMETHING_WENT_WRONG
+import com.example.fampayassignment.utils.ErrorType
+import com.example.fampayassignment.utils.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
@@ -34,7 +34,5 @@ open class BaseRepo {
                 errorType = ErrorType.HTTP
             )
         }
-
     }
-
 }

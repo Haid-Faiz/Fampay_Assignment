@@ -4,10 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fampayassignment.databinding.ItemCardGroupsBinding
 import com.example.lib.models.CardGroup
-import javax.inject.Inject
+import me.relex.circleindicator.CircleIndicator2
 
 class CardGroupsAdapter : ListAdapter<CardGroup, CardGroupsAdapter.ViewHolder>(diffUtilCallback) {
 
@@ -51,9 +52,14 @@ class CardGroupsAdapter : ListAdapter<CardGroup, CardGroupsAdapter.ViewHolder>(d
             rvCards.setHasFixedSize(true)
             rvCards.adapter = cardsAdapter
             cardsAdapter.submitList(item.cards)
+            // Attaching recyclerview page indicator
+            if ((item.designType == "HC5" || item.designType == "HC1") && item.cards?.size!! > 1) {
+                val pagerSnapHelper = PagerSnapHelper()
+                val indicator: CircleIndicator2 = binding.indicator
+                indicator.attachToRecyclerView(rvCards, pagerSnapHelper)
+            }
         }
     }
-
 }
 
 private val diffUtilCallback = object : DiffUtil.ItemCallback<CardGroup>() {
